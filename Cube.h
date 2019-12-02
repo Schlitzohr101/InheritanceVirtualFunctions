@@ -12,10 +12,12 @@ class Cube : public Luggage {
 };
 
 Cube::Cube(int s) {
+    setType("Cube");
     side = float(s);
 }
 
 Cube::Cube(float s) {
+    setType("Cube");
     side = s;
 }
 

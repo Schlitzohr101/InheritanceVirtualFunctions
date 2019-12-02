@@ -14,12 +14,14 @@ public:
 
 Box::Box(int s, int s1, int s2)
 {
+    setType("Box");
     length = float(s);
     width = float(s1);
     height = float(s2);
 }
 
 Box::Box(float s, float s1,float s2) {
+    setType("Box");
     length = s;
     width = s1;
     height = s2;

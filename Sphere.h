@@ -12,15 +12,17 @@ class Sphere : public Luggage {
 };
 
 Sphere::Sphere(float radius) {
+    setType("Sphere");
     r = radius;
 }
 
 Sphere::Sphere(int radius) {
+    setType("Sphere");
     r = float(radius);
 }
 
 float Sphere::volume() {
-    float(4)/3 * M_PI * pow(r,3.0);
+    return float(4)/3 * M_PI * pow(r,3.0);
 }
 
 #endif
