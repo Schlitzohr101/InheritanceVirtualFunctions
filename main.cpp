@@ -1,17 +1,43 @@
 #include "header.h"
 int main()
 {
-    map<int,Luggage * > storage;
+    vector<Luggage * > storage;
     voidFuncPtr method;
     int select = 0;
-    printMenu();
-    cin >> select;
+
+    do
+    {
+        printMenu();
+        cin >> select;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cerr << "\nEnter a NUMBER on the menu above" << endl << endl;
+        }
+        else if (select < 1 || select > 4) {
+            cerr << "\nPlease choose one of the options on the menu\n" << endl;
+        }
+    } while (select < 1 || select > 4);
+    
+
     while (select != 4)
     {
         method = Choices(select);
         method(storage);
-        printMenu();
-        cin >> select;
+        cout << endl;
+        do
+        {
+            printMenu();
+            cin >> select;
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "\nEnter a NUMBER on the menu above\n" << endl;
+            }
+            else if (select < 1 || select > 4) {
+                cout << "Please choose one of the options on the menu\n";
+            }
+        } while (select < 1 || select > 4);
     }
     
     cout << "Have a nice day!\n";
@@ -35,22 +61,24 @@ void printMenu() {
          << "4) Quit" << endl;
 }
 
-void showAll(map<int,Luggage * > &temp) {
-    map<int,Luggage *>::iterator it;
+void showAll(vector<Luggage * > &temp) {
     float totalVol = 0;
     cout << "Storage Containers Contents :\n";
     if (!temp.empty()) {
-        for (it = temp.begin(); it != temp.end(); it++) {
-            totalVol += it->second->volume();
-            cout << it->second->getType() << " : " << it->second->volume() << endl;
+        for (int i = 0; i < temp.size(); i++)
+        {
+            totalVol += temp[i]->volume();
+            cout << temp[i]->getType() << " : ";
+            printf("%.4f\n",temp[i]->volume());
         }
-        cout << "total items: " << temp.size() << " - volume: " << totalVol << endl;
+        cout << "total items: " << temp.size() << " - volume: ";
+        printf("%.4f\n\n",totalVol);
     } else {
-        cout << "Empty" << endl;
+        cout << "Empty" << endl << endl;
     }
 }
 
-void addLuggage(map<int,Luggage *> &temp) {
+void addLuggage(vector<Luggage *> &temp) {
     int choice = 0;
     do
     {
@@ -58,7 +86,7 @@ void addLuggage(map<int,Luggage *> &temp) {
         cin >> choice;
         if (choice < 1 || choice > 8)
         {
-            cout << "Please choose a choice on the menu provided\n\n";
+            cout << "\nPlease choose a choice on the menu provided\n\n";
         }
     } while (choice < 1 || choice > 8);
     float radius = 0;
@@ -78,48 +106,48 @@ void addLuggage(map<int,Luggage *> &temp) {
         cout << "What length? ";
         
         cin >> length;
-        temp[temp.size()+1] = new Box(length, width, height);
+        temp.push_back(new Box(length, width, height));
         break;
     case 2: 
         cout << "For your cube:\nWhat size edge? ";
         
         cin >> edge;
-        temp[temp.size()+1] = new Cube(edge);
+        temp.push_back(new Cube(edge));
         break;
     case 3: 
         cout << "For your Sphere:\nWhat radius? ";
         
         cin >> radius;
-        temp[temp.size()+1] = new Sphere(radius);
+        temp.push_back(new Sphere(radius));
         break;
     case 4:
         cout << "For your Cylinder:\nWhat radius? ";
         cin >> radius;
         cout << "What height? ";
         cin >> height;
-        temp[temp.size()+1] = new Cylinder(radius,height);
+        temp.push_back( new Cylinder(radius,height));
         break;
     case 5:
         cout << "For your Pyramid:\nWhat size base edge? ";
         cin >> edge;
         cout << "What height? ";
         cin >> height;
-        temp[temp.size()+1] = new Pyramid(edge,height);
+        temp.push_back( new Pyramid(edge,height));
         break;
     case 6:
         cout << "For your Octahedron:\nWhat size edge? ";
         cin >> edge;
-        temp[temp.size()+1] = new Octahedron(edge);
+        temp.push_back( new Octahedron(edge));
         break;
     case 7:
         cout << "For your Dodecahedron:\nWhat size edge? ";
         cin >> edge;
-        temp[temp.size()+1] = new Dodecahedron(edge);
+        temp.push_back( new Dodecahedron(edge));
         break;
     default:
         cout << "For your Rhombic Dodecahedron:\nWhat size edge? ";
         cin >> edge;
-        temp[temp.size()+1] = new RhombicDodecahedron(edge);
+        temp.push_back(new RhombicDodecahedron(edge));
         break;
     }
 }
@@ -135,10 +163,13 @@ void luggageOptions() {
          << "8) Rhombic Dodecahedron\n";
 }
 
-void removeLuggage(map<int, Luggage *> &temp) {
-    for (auto &&itr : temp) {
-        cout << itr.first << ") " << itr.second->getType() << endl;
+void removeLuggage(vector<Luggage *> &temp) {
+    vector<Luggage *>::iterator itr;
+    for (int i = 0; i < temp.size(); i++)
+    {
+        cout << i+1 << ") " << temp[i]->getType() << endl;
     }
+    
     int rmv = 0;
     do
     {
@@ -148,5 +179,12 @@ void removeLuggage(map<int, Luggage *> &temp) {
             cout << "Please enter a number given above\n\n";
         }
     } while (rmv < 1 || rmv > temp.size());
-    temp.erase(rmv);
+
+    itr = temp.begin();
+
+    for (int i = 1; i < rmv; i++)
+    {
+        itr++;
+    }
+    temp.erase(itr);
 }

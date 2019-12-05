@@ -1,3 +1,5 @@
+#ifndef HEADER_H
+#define HEADER_H
 #include "Cube.h"
 #include "Box.h"
 #include "Cylinder.h"
@@ -7,15 +9,20 @@
 #include "Pyramid.h"
 #include "Sphere.h"
 #include <map>
+#include <vector>
 #include <iostream>
+#include <stdio.h>
+#include <limits>
 using namespace std;
 
-typedef void (*voidFuncPtr)(map<int,Luggage *>&);
+typedef void (*voidFuncPtr)(vector<Luggage *>&);
 
 voidFuncPtr Choices(int);
 
 void printMenu();
-void showAll(map<int,Luggage *>&);
-void addLuggage(map<int,Luggage *>&);
+void showAll(vector<Luggage *>&);
+void addLuggage(vector<Luggage *>&);
 void luggageOptions();
-void removeLuggage(map<int,Luggage *>&);
+void removeLuggage(vector<Luggage *>&);
+
+#endif
