@@ -1,3 +1,7 @@
+//William Murray
+//CECS 282-05
+//Prog - 6 Inheritance/Virtual Functions
+//Nov 21, 2019
 #include "header.h"
 int main()
 {
